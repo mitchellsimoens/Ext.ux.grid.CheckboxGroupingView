@@ -1,0 +1,15 @@
+.x-grid3-group-check {
+    float: left;
+    width: 13px;
+    height: 13px;
+    margin-right: 5px;
+    background-image: url('tricheckbox.gif');
+}
+
+.x-grid3-group-checked {
+    background-position: 0px -13px;
+}
+
+.x-grid3-group-checked-some {
+    background-position: 0px 13px;
+}
