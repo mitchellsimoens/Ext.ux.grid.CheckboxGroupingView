@@ -14,8 +14,6 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
 
         selModel.on('rowselect', me.handleGridRowSelect, me);
         selModel.on('rowdeselect', me.handleGridRowSelect, me);
-
-        //selModel.on('selectionchange', me.markGroupCheckbox, me);
     },
 
     processEvent: function(name, e) {
