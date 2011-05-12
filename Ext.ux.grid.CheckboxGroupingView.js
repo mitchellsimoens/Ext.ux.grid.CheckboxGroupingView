@@ -23,7 +23,7 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
             selModel = grid.getSelectionModel();
 
         selModel.un('rowselect', me.handleGridRowSelect, me);
-        selModel.nn('rowdeselect', me.handleGridRowSelect, me);
+        selModel.un('rowdeselect', me.handleGridRowSelect, me);
     },
 
     processEvent: function(name, e) {
