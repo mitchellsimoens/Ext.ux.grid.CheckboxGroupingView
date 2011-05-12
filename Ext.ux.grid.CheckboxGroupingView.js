@@ -25,7 +25,7 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
             checked   = el.hasClass(me.allCheckCls),
             clsAction = (checked ? 'remove' : 'add') + 'Class';
 
-        Ext.ux.grid.CheckboxGroupingView.superclass.processEvent.call(me, name, e);
+        Ext.grid.GroupingView.superclass.processEvent.call(me, name, e);
 
         var hd = e.getTarget('.x-grid-group-hd', me.mainBody);
 
