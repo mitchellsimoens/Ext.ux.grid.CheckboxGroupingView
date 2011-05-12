@@ -12,7 +12,10 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
 
         Ext.ux.grid.CheckboxGroupingView.superclass.afterRender.call(me);
 
-        selModel.on('selectionchange', me.markGroupCheckbox, me);
+        selModel.on('rowselect', me.handleGridRowSelect, me);
+        selModel.on('rowdeselect', me.handleGridRowSelect, me);
+
+        //selModel.on('selectionchange', me.markGroupCheckbox, me);
     },
 
     processEvent: function(name, e) {
@@ -90,33 +93,29 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
         selModel.selectRecords(selected, false);
     },
 
-    markGroupCheckbox: function(selModel) {
-        var me = this,
-            groups = me.getGroups(),
-            groupEl, groupId, recs, len, check, checkEl;
-
-        Ext.iterate(groups, function(group) {
-            groupEl = Ext.get(group);
-            groupId = groupEl.id;
-            checkEl = groupEl.query('.'+me.checkCls);
-            checkEl = Ext.get(checkEl[0]);
-            recs    = me.getGroupRecords(groupId);
-            len     = recs.length;
+    handleGridRowSelect: function(selModel, rowIdx, rec) {
+        var me      = this,
+            groupId = rec._groupId,
+            groupEl = Ext.get(groupId),
+            checkEl = groupEl.query('.' + me.checkCls),
+            checkEl = Ext.get(checkEl[0]),
+            recs    = me.getGroupRecords(groupId),
+            len     = recs.length,
             check   = 0;
 
-            Ext.iterate(recs, function(rec) {
-                check += (selModel.isSelected(rec)) ? 1 : 0;
-            });
-            if (check === len) {
-                checkEl.removeClass(me.someCheckCls);
-                checkEl.addClass(me.allCheckCls);
-            } else if (check === 0) {
-                checkEl.removeClass(me.someCheckCls);
-                checkEl.removeClass(me.allCheckCls);
-            } else {
-                checkEl.removeClass(me.allCheckCls);
-                checkEl.addClass(me.someCheckCls);
-            }
+        Ext.iterate(recs, function(rec) {
+            check += (selModel.isSelected(rec)) ? 1 : 0;
         });
+
+        if (check === len) {
+            checkEl.removeClass(me.someCheckCls);
+            checkEl.addClass(me.allCheckCls);
+        } else if (check === 0) {
+            checkEl.removeClass(me.someCheckCls);
+            checkEl.removeClass(me.allCheckCls);
+        } else {
+            checkEl.removeClass(me.allCheckCls);
+            checkEl.addClass(me.someCheckCls);
+        }
     }
 });
