@@ -3,7 +3,9 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
     checkCls        : 'x-grid3-group-check',
     allCheckCls     : 'x-grid3-group-checked',
     someCheckCls    : 'x-grid3-group-checked-some',
-    collapseOnCheck : true,
+    collapseOnCheck : false,
+    //private
+    stopToggle      : false,
 
     afterRender: function() {
         var me       = this,
@@ -62,6 +64,14 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
         }
     },
 
+    onBeforeRowSelect: function(sm, rowIndex) {
+        var me = this;
+
+        if (!me.stopToggle) {
+            me.toggleRowIndex(rowIndex, true);
+        }
+    },
+
     getGroupRecords: function(groupId) {
         var me    = this,
             grid  = me.grid,
@@ -98,7 +108,11 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
             });
         }
 
+        me.stopToggle = true;
+
         selModel.selectRecords(selected, false);
+
+        me.stopToggle = false;
     },
 
     handleGridRowSelect: function(selModel, rowIdx, rec) {
