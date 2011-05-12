@@ -14,6 +14,16 @@ Ext.ux.grid.CheckboxGroupingView = Ext.extend(Ext.grid.GroupingView, {
 
         selModel.on('rowselect', me.handleGridRowSelect, me);
         selModel.on('rowdeselect', me.handleGridRowSelect, me);
+        grid.on('beforedestroy', me.beforeDestroy, me);
+    },
+
+    beforeDestroy: function() {
+        var me       = this,
+            grid     = me.grid,
+            selModel = grid.getSelectionModel();
+
+        selModel.un('rowselect', me.handleGridRowSelect, me);
+        selModel.nn('rowdeselect', me.handleGridRowSelect, me);
     },
 
     processEvent: function(name, e) {
